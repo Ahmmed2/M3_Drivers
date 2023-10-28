@@ -53,6 +53,10 @@ uint8_t SPI_Data = 'B' ;
 
 /////////////////////////////
 
+/* SPI */
+/* Receive Data */
+uint8_t Global_SPIRX ;
+
 /***************** Global Variables End   *****************/
 
 
@@ -61,6 +65,9 @@ uint8_t SPI_Data = 'B' ;
 
 /* Initiate the Clock Configurations */
 void SystemClock_Config (void) ;
+
+/* SPI1 Caller Function */
+void SPI1_Handler (uint8_t Copy_u8DataRx ) ;
 
 /***************** Function Declaration	 End   *****************/
 
@@ -77,6 +84,7 @@ int main(void)
 	/* Enable Clock on SPI1 */
 	RCC_Enable_Clock ( SPI1EN ) ;
 
+	MSPI1_voidSetCallBack(SPI1_Handler) ;
 
 	/************************* Initialization End    **************************/
 
@@ -135,26 +143,6 @@ while (1)
 {
 
 
-
-//	MSPI1_voidSend(SPI_Data) ;
-/*	MSPI1_voidReceive(&Counter2);
-	if (Counter2 == 'B' )
-	{
-		MGPIO_VoidSetPinValue(GPIOB,PIN12,HIGH);
-
-	}*/
-
-/*	MSPI1_voidReceive(&Counter2 ) ;
-	if (Counter2 == 'A')
-	{
-	MGPIO_VoidSetPinValue(GPIOB,PIN12,HIGH);
-	}
-	else
-	{
-	MGPIO_VoidSetPinValue(GPIOB,PIN12,LOW);
-	}*/
-
-
 }
 return 0 ;
 }
@@ -182,21 +170,15 @@ void SystemClock_Config ()
 }
 
 
-/********************* ISR *********************/
+/********************* Call Back Functions  *********************/
 
-void SPI1_IRQHandler(void)
+void SPI1_Handler (uint8_t Copy_u8DataRx )
 {
-	/* Pin A0 O/P HIGH */
-	//MGPIO_VoidSetPinValue(GPIOB,PIN12,HIGH);
-	//MSTK_voidSetBusyWait(2000000);
 	Counter1 ++ ;
-
-	Counter2 = SPI1 -> DR ;
-	if (Counter2 == 'B' )
+	Global_SPIRX = Copy_u8DataRx ;
+	if (Global_SPIRX == 'B' )
 	{
 		MGPIO_VoidSetPinValue(GPIOB,PIN12,HIGH);
 	}
-	//Clear_bit(SPI1->CR2,6);
 
 }
-
