@@ -52,6 +52,7 @@ void MSPI1_voidInit(void)
 	Clear_bit(Copy_u16InitValue,BR_5) ;
 	Clear_bit(Copy_u16InitValue,BR_4) ;
 	Clear_bit(Copy_u16InitValue,BR_3) ;
+	Copy_u16InitValue |= CLK_SELECT << 3 ;
 
 	/* Software Slave Managmement Enable */
 	Set_bit(Copy_u16InitValue,SSM) ;
@@ -109,7 +110,7 @@ void MSPI1_voidInit(void)
  */
 
 
-void MSPI1_voidSend(uint8_t Copy_u8DataToTransmit)
+void MSPI1_voidSendByte(uint8_t Copy_u8DataToTransmit)
 {
 
 
@@ -139,7 +140,7 @@ void MSPI1_voidSend(uint8_t Copy_u8DataToTransmit)
  *
  */
 
-void MSPI1_voidReceive(uint8_t *Copy_DataToReceive)
+void MSPI1_voidReceiveByte(uint8_t *Copy_DataToReceive)
 {
 
 
@@ -154,17 +155,28 @@ void MSPI1_voidReceive(uint8_t *Copy_DataToReceive)
 	while (Get_bit(SPI1 -> SR, BSY) == 1);
 
 
-#elif SPI_RXMODE == SPI_RXINTERRUPT
-
-	/*  Return to the received data */
-	*Copy_DataToReceive = SPI1 -> DR;
 
 #endif
 
+}
+
+void MSPI1_voidSendString(uint8_t *Copy_u8DataToTransmit)
+{
+	uint8_t Local_IndexCounter = 0;
+
+	while(Copy_u8DataToTransmit[Local_IndexCounter] != '\0')
+	{
+		/* Transmit data register Empty */
+		while((Get_bit(SPI1 -> SR, 1)) == 0);
+		SPI1 -> DR = Copy_u8DataToTransmit[Local_IndexCounter];
+		/* Transmission complete */
+		while(Get_bit(SPI1 -> SR, BSY) == 0);
+		Local_IndexCounter++;
+
+	}
 
 
 }
-
 
 /******************************** ISR ************************************/
 
@@ -173,6 +185,8 @@ void MSPI1_voidSetCallBack(void (*ptr)(u8))
 	SPI_PTRHandler = ptr ;
 }
 
+
+/******************************** Call Back Handler ********************************/
 
 void SPI1_IRQHandler(void)
 {

@@ -71,15 +71,16 @@
 
 /* Baud rate control */
 
-#define CLK_2			0
-#define CLK_4			1
-#define CLK_8			2
-#define CLK_16			3
-#define CLK_32			4
-#define CLK_64			5
-#define CLK_128			6
-#define CLK_256			7
+#define CLK_2					0
+#define CLK_4					1
+#define CLK_8					2
+#define CLK_16					3
+#define CLK_32					4
+#define CLK_64					5
+#define CLK_128					6
+#define CLK_256					7
 
+#define CLK_SELECT 			  CLK_2
 /* SPI1 Port,Pin */
 
 #define SPI1_SLAVE_PIN   GPIOA,0
@@ -116,8 +117,9 @@ typedef struct
 /***************Software Interfaces Definitions Start *****************/
 
 void MSPI1_voidInit(void);
-void MSPI1_voidSend(uint8_t Copy_u8DataToTransmit);
-void MSPI1_voidReceive(uint8_t *Copy_DataToReceive);
+void MSPI1_voidSendByte(uint8_t Copy_u8DataToTransmit);
+void MSPI1_voidReceiveByte(uint8_t *Copy_DataToReceive);
+void MSPI1_voidSendString(uint8_t *Copy_u8DataToTransmit);
 void MSPI1_voidSetCallBack(void (*ptr)(u8)) ;
 
 /***************Software Interfaces Definitions END   *****************/
