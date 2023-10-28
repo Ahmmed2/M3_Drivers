@@ -104,3 +104,4 @@ void MGPIO_VoidSetPinDirection(uint8_t Copy_u8Port , uint8_t Copy_u8Pin , uint8_
 void MGPIO_VoidSetPinValue(uint8_t Copy_u8Port , uint8_t Copy_u8Pin , uint8_t Copy_u8Value);
 uint8_t MGPIO_u8GetPinValue(uint8_t Copy_u8Port , uint8_t Copy_u8Pin);
 void MGPIO_VoidLockPin(uint8_t Copy_u8Port , uint8_t Copy_u8Pin);
+void MGPIO_VoidTogglePinValue(uint8_t Copy_uint8_tPort , uint8_t Copy_uint8_tPin ) ;

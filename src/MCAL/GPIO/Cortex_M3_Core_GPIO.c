@@ -180,4 +180,34 @@ uint8_t MGPIO_uint8_tGetPinValue(uint8_t Copy_uint8_tPort , uint8_t Copy_uint8_t
 	return LOC_uint8_tResult;
 }
 
+/**
+ * Brief : Toggle Pin Value
+ *
+ * Parameters : PORTName , Pin Number
+ *
+ *Return :
+ *
+ * note :
+ *
+ */
+
+
+void MGPIO_VoidTogglePinValue(uint8_t Copy_uint8_tPort , uint8_t Copy_uint8_tPin )
+{
+	switch(Copy_uint8_tPort)
+	{
+	case GPIOA:
+		Toggle_bit(GPIOA_ODR,Copy_uint8_tPin) ;
+		break;
+
+	case GPIOB:
+		Toggle_bit(GPIOB_ODR,Copy_uint8_tPin) ;
+		break;
+
+	case GPIOC:
+		Toggle_bit(GPIOC_ODR,Copy_uint8_tPin) ;
+		break;
+
+	}
+}
 
